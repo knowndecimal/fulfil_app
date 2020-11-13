@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <style>
+      :root {
+        --fulfil-brand-color: #3467d4;
+      }
+
+      body {
+        font-family: Helvetica, 'Open Sans', sans-serif;
+        text-align: center;
+        background-color: #eee;
+      }
+
+      main {
+        margin: 10rem auto 0 auto;
+        width: 20rem;
+      }
+
+      label, input {
+        margin-bottom: 0.5rem;
+      }
+
+      label {
+        display: inline-block;
+      }
+
+      input {
+        font-size: 1.0rem;
+        width: 100%;
+        text-align: center;
+        padding: 0.25rem;
+      }
+
+      input.btn {
+        padding: 0.5rem;
+        background-color: var(--fulfil-brand-color);
+        color: #fff;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <%= yield -%>
+  </body>
+</html>
+
