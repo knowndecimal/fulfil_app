@@ -14,10 +14,13 @@ module FulfilApp
       begin
         Rails.logger.debug('[FulfilApp::LoginProtection] Activating session...')
         yield
-      rescue StandardError
-        Rails.logger.debug('[FulfilApp::LoginProtection] Expired authorization...')
-        reset_session
-        redirect_to FulfilApp.configuration.login_url
+      rescue StandardError => e
+        if e.message == 'Not authorized'
+          Rails.logger.debug('[FulfilApp::LoginProtection] Expired authorization...')
+
+          reset_session
+          redirect_to FulfilApp.configuration.login_url
+        end
       ensure
         Rails.logger.debug('[FulfilApp::LoginProtection] Clearing session...')
       end
