@@ -37,7 +37,7 @@ class FulfilApp::SessionsController < ApplicationController
 
     session[:nonce] = nil
 
-    redirect_to '/orders'
+    redirect_to '/'
   end
 
   def destroy
@@ -62,7 +62,11 @@ class FulfilApp::SessionsController < ApplicationController
     end
   end
 
+  def verified?
+    session['fulfil.user_id'].present? && session['fulfil.token'].present?
+  end
+
   def redirect_if_authenticated!
-    redirect_to '/orders' and return if session['fulfil.user_id'].present?
+    redirect_to '/' and return if verified?
   end
 end
