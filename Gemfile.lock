@@ -71,7 +71,7 @@ GEM
     crass (1.0.6)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
-    erubi (1.9.0)
+    erubi (1.10.0)
     faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
@@ -79,7 +79,7 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
-    fulfil-io (0.2.0)
+    fulfil-io (0.4.3)
       http
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -91,8 +91,8 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    http-parser (1.2.1)
-      ffi-compiler (>= 1.0, < 2.0)
+    http-parser (1.2.2)
+      ffi-compiler
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     jwt (2.2.2)
