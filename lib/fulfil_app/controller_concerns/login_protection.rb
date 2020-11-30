@@ -6,24 +6,26 @@ module FulfilApp
 
     def activate_fulfil_session
       if session['fulfil.user_id'].nil?
-        Rails.logger.debug('[FulfilApp::LoginProtection] Not authenticated. Redirecting...')
+        log('Not authenticated. Redirecting...')
         redirect_to FulfilApp.configuration.login_url
         return
       end
 
-      begin
-        Rails.logger.debug('[FulfilApp::LoginProtection] Activating session...')
-        yield
-      rescue StandardError => e
-        if e.message == 'Not authorized'
-          Rails.logger.debug('[FulfilApp::LoginProtection] Expired authorization...')
+      log('Activating session...')
+      yield
+    ensure
+      log('Clearing session...')
+    end
 
-          reset_session
-          redirect_to FulfilApp.configuration.login_url
-        end
-      ensure
-        Rails.logger.debug('[FulfilApp::LoginProtection] Clearing session...')
-      end
+    def log(message)
+      Rails.logger.debug("[FulfilApp::LoginProtection] #{message}")
+    end
+
+    def refresh_token
+      log('Expired authorization...')
+
+      reset_session
+      redirect_to FulfilApp.configuration.login_url
     end
   end
 end

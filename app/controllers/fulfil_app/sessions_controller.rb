@@ -18,7 +18,7 @@ class FulfilApp::SessionsController < ApplicationController
       subdomain: session['fulfil.subdomain']
     )
 
-    Rails.logger.debug('[FulfilApp::SessionsController] Redirecting to Fulfil for auth...')
+    log('Redirecting to Fulfil for auth...')
     redirect_to auth_url
   end
 
@@ -27,12 +27,12 @@ class FulfilApp::SessionsController < ApplicationController
   end
 
   def callback
-    Rails.logger.debug('[FulfilApp::SessionsController] Authenticating...')
+    log('Authenticating...')
     token = FulfilApp::Session.get_token(code: params[:code], subdomain: session['fulfil.subdomain'])
 
-    user_info = token.params.dig('associated_user')
-    Rails.logger.debug("[FulfilApp::SessionsController] Authenticated #{session['fulfil.subdomain']} as #{user_info}...")
-    session['fulfil.user_id'] = user_info.dig('id')
+    user_info = token.params['associated_user']
+    log("Authenticated #{session['fulfil.subdomain']} as #{user_info}...")
+    session['fulfil.user_id'] = user_info['id']
     session['fulfil.token'] = token.token
 
     session[:nonce] = nil
@@ -56,10 +56,10 @@ class FulfilApp::SessionsController < ApplicationController
   end
 
   def verify_nonce!
-    if session[:nonce] != params[:state]
-      Rails.logger.debug('[FulfilApp::SessionsController] nonce did not match...')
-      redirect_to login_path and return
-    end
+    return if session[:nonce] == params[:state]
+
+    log('nonce did not match...')
+    redirect_to login_path and return
   end
 
   def verified?
@@ -68,5 +68,9 @@ class FulfilApp::SessionsController < ApplicationController
 
   def redirect_if_authenticated!
     redirect_to '/' and return if verified?
+  end
+
+  def log(message)
+    Rails.logger.debug("[FulfilApp::SessionsController] #{message}")
   end
 end
