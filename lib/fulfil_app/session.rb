@@ -16,7 +16,7 @@ module FulfilApp
 
       def authorize_url(host:, nonce:, subdomain:)
         client(subdomain: subdomain).auth_code.authorize_url(
-          redirect_uri: "#{host}/fulfil/oauth2/callback",
+          redirect_uri: "#{host}/fulfil_app/oauth2/callback",
           state: nonce,
           scope: 'user_session'
         )
