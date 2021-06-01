@@ -5,10 +5,28 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="wrapper">
+      <header>
+        <div id="header-flex">
+          <span>Fulfil Subdomain: <strong><%= session['fulfil.subdomain'] %></strong></span>
+          <span>
+            Signed in as: <%= current_user.name %>
+            <%= button_to('Sign out', fulfil_app.session_path, method: :delete) %>
+          </span>
+        </div>
+      </header>
+      <nav>
+        <ul>
+          <li><%= link_to('Products', products_path) %></li>
+        </ul>
+      </nav>
+      <section>
+        <%= yield %>
+      </section>
+    </div>
   </body>
 </html>

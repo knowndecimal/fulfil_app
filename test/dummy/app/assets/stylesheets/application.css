@@ -13,3 +13,70 @@
  *= require_tree .
  *= require_self
  */
+
+/**************************************
+STATIC LAYOUT CSS
+**************************************/
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+header {
+	width: 100%;
+}
+
+nav, section {
+  float: left;
+}
+
+nav {
+  width: 25%;
+  border-right: 1px solid #ccc;
+}
+
+section {
+  width: 75%;
+}
+
+/**************************************
+CSS TO MAKE THE EXAMPLE LOOK PRETTY
+**************************************/
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Helvetica;
+  margin: 0;
+}
+
+header, nav, section {
+}
+
+header {
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+header #header-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav, section {
+  padding: 1rem;
+}
+
+table {
+  width: 100%;
+}
+
+th, td {
+  text-align: center;
+  padding: 0.25rem;
+}
