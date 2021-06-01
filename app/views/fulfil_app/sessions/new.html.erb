@@ -2,8 +2,9 @@
   <%= form_with(url: session_path, local: true) do |f| -%>
     <div>
       <%= f.label(:subdomain, 'Fulfil Subdomain') -%>
-      <%= f.text_field(:subdomain, placeholder: 'my-instance.fulfil.io') -%>
+      <%= f.text_field(:subdomain, value: session['fulfil.subdomain'], placeholder: 'my-instance.fulfil.io', autofocus: true) -%>
     </div>
+
     <%= button_to('Sign in with Fulfil', session_path, class: 'btn btn-lg btn-primary btn-block') -%>
   <% end -%>
 </main>
