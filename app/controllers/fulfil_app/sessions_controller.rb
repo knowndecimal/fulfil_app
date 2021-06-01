@@ -9,21 +9,17 @@ class FulfilApp::SessionsController < ApplicationController
   layout 'fulfil_app/sessions'
 
   def create
-    session[:nonce] = SecureRandom.hex
-    session['fulfil.subdomain'] = params[:subdomain]
-
-    auth_url = FulfilApp::Session.authorize_url(
-      host: "#{request.protocol}#{request.host_with_port}",
-      nonce: session[:nonce],
-      subdomain: session['fulfil.subdomain']
-    )
-
     log('Redirecting to Fulfil for auth...')
-    redirect_to auth_url
+    redirect_to create_session_url
   end
 
   def refresh
-    render :create
+    if session['fulfil.subdomain'].present?
+      log("Refreshing token for #{session['fulfil.subdomain']}")
+      redirect_to create_session_url
+    else
+      render :create
+    end
   end
 
   def callback
@@ -32,6 +28,7 @@ class FulfilApp::SessionsController < ApplicationController
 
     user_info = token.params['associated_user']
     log("Authenticated #{session['fulfil.subdomain']} as #{user_info}...")
+
     session['fulfil.user_id'] = user_info['id']
     session['fulfil.token'] = token.token
 
@@ -63,7 +60,9 @@ class FulfilApp::SessionsController < ApplicationController
   end
 
   def verified?
-    session['fulfil.user_id'].present? && session['fulfil.token'].present?
+    session['fulfil.subdomain'].present? &&
+      session['fulfil.user_id'].present? &&
+      session['fulfil.token'].present?
   end
 
   def redirect_if_authenticated!
@@ -72,5 +71,16 @@ class FulfilApp::SessionsController < ApplicationController
 
   def log(message)
     Rails.logger.debug("[FulfilApp::SessionsController] #{message}")
+  end
+
+  def create_session_url
+    session[:nonce] = SecureRandom.hex
+    session['fulfil.subdomain'] = params[:subdomain]
+
+    FulfilApp::Session.authorize_url(
+      host: "#{request.protocol}#{request.host_with_port}",
+      nonce: session[:nonce],
+      subdomain: session['fulfil.subdomain']
+    )
   end
 end
