@@ -24,8 +24,10 @@ module FulfilApp
     def refresh_token
       log('Expired authorization...')
 
-      reset_session
-      redirect_to FulfilApp.configuration.login_url
+      session['fulfil.token'] = nil
+      session['fulfil.user_id'] = nil
+
+      redirect_to session_refresh_path
     end
   end
 end
