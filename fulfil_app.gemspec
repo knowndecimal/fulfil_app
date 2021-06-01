@@ -20,7 +20,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'fulfil-io'
   spec.add_dependency 'oauth2'
-  spec.add_dependency 'rails', '~> 6.0.3', '>= 6.0.3.4'
+  spec.add_dependency 'rails', '~> 6.1.3', '>= 6.0.3.4'
 
+  spec.add_development_dependency 'byebug'
   spec.add_development_dependency 'sqlite3'
 end
