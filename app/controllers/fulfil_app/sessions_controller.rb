@@ -10,7 +10,7 @@ class FulfilApp::SessionsController < ApplicationController
 
   def create
     log('Redirecting to Fulfil for auth...')
-    redirect_to create_session_url
+    redirect_to create_session_url, allow_other_host: true
   end
 
   def refresh
